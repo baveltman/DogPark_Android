@@ -26,20 +26,5 @@
         android:textColor="#301712"
         android:id="@+id/dogpark_logo_text"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:text="Get user"
-        android:id="@+id/get_user_button"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:text="Post user"
-        android:id="@+id/post_user_button"/>
 
 </LinearLayout>

@@ -58,35 +58,14 @@ public class LoginFragment extends Fragment {
         TextView logoText = (TextView)v.findViewById(R.id.dogpark_logo_text);
         logoText.setTypeface(myTypeface);
 
-        //test code to be removed
-        Button getUser = (Button)v.findViewById(R.id.get_user_button);
-        getUser.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        Button createUser = (Button)v.findViewById(R.id.post_user_button);
-        createUser.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                User newUser = new User();
-                newUser.setFacebookId(100);
-                newUser.setBirthdate("1987-09-09");
-                newUser.setEmail("newuserfromAndroid1@abc.com");
-                newUser.setGender(1);
-                newUser.setDescription("user from android created via api");
-
-
-            }
-
-        });
-
         return v;
     }
 
+
+    /**
+     * POST to /users/ and create newUser
+     * @param newUser is the user to be created
+     */
     private void CreateUser(User newUser){
         mUsersService.createUser(newUser, new Callback<UserResponse>() {
             @Override
@@ -102,6 +81,10 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    /**
+     * returns User instance by doing GET to /users/{facebookId}
+     * @param facebookId facebookId of user to be returned
+     */
     private void getUser(int facebookId){
         mUsersService.getUserByFacebookId(facebookId, new Callback<UserResponse>() {
             @Override
