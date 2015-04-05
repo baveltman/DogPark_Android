@@ -76,6 +76,33 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        Button createUser = (Button)v.findViewById(R.id.post_user_button);
+        createUser.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                User newUser = new User();
+                newUser.setFacebookId(100);
+                newUser.setBirthdate("1987-09-09");
+                newUser.setEmail("newuserfromAndroid1@abc.com");
+                newUser.setGender(1);
+                newUser.setDescription("user from android created via api");
+
+                mUsersService.createUser(newUser, new Callback<UserResponse>() {
+                    @Override
+                    public void success(UserResponse userResponse, Response response) {
+                        Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getFacebookId());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i(LOGGER_TAG, "user creation failed");
+                    }
+                });
+            }
+
+        });
+
         return v;
     }
 }
