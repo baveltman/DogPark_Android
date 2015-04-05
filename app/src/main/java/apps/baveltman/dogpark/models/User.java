@@ -1,24 +1,28 @@
 package apps.baveltman.dogpark.models;
 
-
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model of app user
+ */
 public class User {
 
-    @Expose
+
     private Integer id;
-    @Expose
+
     private Integer facebookId;
-    @Expose
+
     private String email;
-    @Expose
+
     private String birthdate;
-    @Expose
+
     private Integer gender;
-    @Expose
+
     private String description;
-    @Expose
+
     private Integer active;
+
 
     /**
      *
