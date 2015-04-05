@@ -65,7 +65,7 @@ public class LoginFragment extends Fragment {
                 mUsersService.getUserByFacebookId("1234", new Callback<UserResponse>() {
                     @Override
                     public void success(UserResponse userResponse, Response response) {
-                        Log.i(LOGGER_TAG, "user info returned: " + userResponse.user.getFacebookId());
+                        Log.i(LOGGER_TAG, "user info returned: " + userResponse.getUser().getFacebookId());
                     }
 
                     @Override

@@ -1,6 +1,5 @@
 package apps.baveltman.dogpark.models;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,20 +7,26 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
+    @SerializedName("id")
+    private Integer mId;
 
-    private Integer id;
+    @SerializedName("facebookId")
+    private Integer mFacebookId;
 
-    private Integer facebookId;
+    @SerializedName("email")
+    private String mEmail;
 
-    private String email;
+    @SerializedName("birthdate")
+    private String mBirthdate;
 
-    private String birthdate;
+    @SerializedName("gender")
+    private Integer mGender;
 
-    private Integer gender;
+    @SerializedName("description")
+    private String mDescription;
 
-    private String description;
-
-    private Integer active;
+    @SerializedName("active")
+    private Integer mActive;
 
 
     /**
@@ -30,7 +35,7 @@ public class User {
      * The id
      */
     public Integer getId() {
-        return id;
+        return mId;
     }
 
     /**
@@ -39,7 +44,7 @@ public class User {
      * The id
      */
     public void setId(Integer id) {
-        this.id = id;
+        mId = id;
     }
 
     /**
@@ -48,7 +53,7 @@ public class User {
      * The facebookId
      */
     public Integer getFacebookId() {
-        return facebookId;
+        return mFacebookId;
     }
 
     /**
@@ -57,7 +62,7 @@ public class User {
      * The facebookId
      */
     public void setFacebookId(Integer facebookId) {
-        this.facebookId = facebookId;
+        mFacebookId = facebookId;
     }
 
     /**
@@ -66,7 +71,7 @@ public class User {
      * The email
      */
     public String getEmail() {
-        return email;
+        return mEmail;
     }
 
     /**
@@ -75,7 +80,7 @@ public class User {
      * The email
      */
     public void setEmail(String email) {
-        this.email = email;
+        mEmail = email;
     }
 
     /**
@@ -84,7 +89,7 @@ public class User {
      * The birthdate
      */
     public String getBirthdate() {
-        return birthdate;
+        return mBirthdate;
     }
 
     /**
@@ -93,7 +98,7 @@ public class User {
      * The birthdate
      */
     public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
+        mBirthdate = birthdate;
     }
 
     /**
@@ -102,7 +107,7 @@ public class User {
      * The gender
      */
     public Integer getGender() {
-        return gender;
+        return mGender;
     }
 
     /**
@@ -111,7 +116,7 @@ public class User {
      * The gender
      */
     public void setGender(Integer gender) {
-        this.gender = gender;
+        mGender = gender;
     }
 
     /**
@@ -120,7 +125,7 @@ public class User {
      * The description
      */
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     /**
@@ -129,7 +134,7 @@ public class User {
      * The description
      */
     public void setDescription(String description) {
-        this.description = description;
+        mDescription = description;
     }
 
     /**
@@ -138,7 +143,7 @@ public class User {
      * The active
      */
     public Integer getActive() {
-        return active;
+        return mActive;
     }
 
     /**
@@ -147,7 +152,7 @@ public class User {
      * The active
      */
     public void setActive(Integer active) {
-        this.active = active;
+        mActive = active;
     }
 
 }
