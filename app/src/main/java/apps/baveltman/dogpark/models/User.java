@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName;
 public class User {
 
     @SerializedName("id")
-    private Integer mId;
+    private int mId;
 
     @SerializedName("facebookId")
-    private Integer mFacebookId;
+    private int mFacebookId;
 
     @SerializedName("email")
     private String mEmail;
@@ -20,13 +20,13 @@ public class User {
     private String mBirthdate;
 
     @SerializedName("gender")
-    private Integer mGender;
+    private int mGender;
 
     @SerializedName("description")
     private String mDescription;
 
     @SerializedName("active")
-    private Integer mActive;
+    private int mActive;
 
 
     /**
@@ -34,7 +34,7 @@ public class User {
      * @return
      * The id
      */
-    public Integer getId() {
+    public int getId() {
         return mId;
     }
 
@@ -52,7 +52,7 @@ public class User {
      * @return
      * The facebookId
      */
-    public Integer getFacebookId() {
+    public int getFacebookId() {
         return mFacebookId;
     }
 
@@ -106,7 +106,7 @@ public class User {
      * @return
      * The gender
      */
-    public Integer getGender() {
+    public int getGender() {
         return mGender;
     }
 
@@ -142,7 +142,7 @@ public class User {
      * @return
      * The active
      */
-    public Integer getActive() {
+    public int getActive() {
         return mActive;
     }
 

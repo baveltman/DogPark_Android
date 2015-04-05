@@ -28,6 +28,7 @@ public class LoginFragment extends Fragment {
     //instance vars
     private RestAdapter mRestAdapter;
     private UsersService mUsersService;
+    private User mUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,17 +63,7 @@ public class LoginFragment extends Fragment {
         getUser.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                mUsersService.getUserByFacebookId("1234", new Callback<UserResponse>() {
-                    @Override
-                    public void success(UserResponse userResponse, Response response) {
-                        Log.i(LOGGER_TAG, "user info returned: " + userResponse.getUser().getFacebookId());
-                    }
 
-                    @Override
-                    public void failure(RetrofitError retrofitError) {
-                        Log.i(LOGGER_TAG, "bad shit happened");
-                    }
-                });
             }
         });
 
@@ -88,21 +79,42 @@ public class LoginFragment extends Fragment {
                 newUser.setGender(1);
                 newUser.setDescription("user from android created via api");
 
-                mUsersService.createUser(newUser, new Callback<UserResponse>() {
-                    @Override
-                    public void success(UserResponse userResponse, Response response) {
-                        Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getFacebookId());
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.i(LOGGER_TAG, "user creation failed");
-                    }
-                });
             }
 
         });
 
         return v;
     }
+
+    private void CreateUser(User newUser){
+        mUsersService.createUser(newUser, new Callback<UserResponse>() {
+            @Override
+            public void success(UserResponse userResponse, Response response) {
+                Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getFacebookId());
+                mUser = userResponse.getUser();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i(LOGGER_TAG, "user creation failed");
+            }
+        });
+    }
+
+    private void getUser(int facebookId){
+        mUsersService.getUserByFacebookId(facebookId, new Callback<UserResponse>() {
+            @Override
+            public void success(UserResponse userResponse, Response response) {
+                Log.i(LOGGER_TAG, "user info returned: " + userResponse.getUser().getFacebookId());
+                mUser = userResponse.getUser();
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                Log.i(LOGGER_TAG, "bad shit happened");
+            }
+        });
+    }
+
 }

@@ -17,7 +17,7 @@ public interface UsersService {
     static final String USERS_ENDPOINT = "https://dogpark-baveltman.rhcloud.com/";
 
     @GET("/users/{facebookId}")
-    void getUserByFacebookId(@Path("facebookId") String facebookId, Callback<UserResponse> callback);
+    void getUserByFacebookId(@Path("facebookId") int facebookId, Callback<UserResponse> callback);
 
     @POST("/users/")
     void createUser(@Body User user, Callback<UserResponse> callback);
