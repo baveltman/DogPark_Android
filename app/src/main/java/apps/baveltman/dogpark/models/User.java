@@ -2,6 +2,8 @@ package apps.baveltman.dogpark.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import apps.baveltman.dogpark.Enums.Gender;
+
 /**
  * Model of app user
  */
@@ -20,7 +22,7 @@ public class User {
     private String mBirthdate;
 
     @SerializedName("gender")
-    private int mGender;
+    private Gender mGender;
 
     @SerializedName("description")
     private String mDescription;
@@ -106,7 +108,7 @@ public class User {
      * @return
      * The gender
      */
-    public int getGender() {
+    public Gender getGender() {
         return mGender;
     }
 
@@ -115,7 +117,7 @@ public class User {
      * @param gender
      * The gender
      */
-    public void setGender(Integer gender) {
+    public void setGender(Gender gender) {
         mGender = gender;
     }
 
