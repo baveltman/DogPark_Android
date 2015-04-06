@@ -22,6 +22,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import apps.baveltman.dogpark.models.User;
 import apps.baveltman.dogpark.models.UserResponse;
@@ -36,12 +37,11 @@ public class LoginFragment extends Fragment {
     //constants
     private static final String LOGGER_TAG = "LoginFragment";
     private static final String EXTRA_ACCESS_TOKEN = "apps.baveltman.doppark.ACCESS_TOKEN";
-    private static final String[] FACEBOOK_PERMISSIONS = new String [] {"public_profile", "email", "user_friends"};
+    public static final String[] FACEBOOK_PERMISSIONS = new String [] {"public_profile", "email", "user_friends"};
 
     //instance vars
     private LoginButton mLoginButton;
     private CallbackManager mCallbackManager;
-    private AccessToken mAccessToken;
     private RestAdapter mRestAdapter;
     private UsersService mUsersService;
     private User mUser;
@@ -55,6 +55,8 @@ public class LoginFragment extends Fragment {
         //initialize Facebook SDK
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
+
+        checkFacebookLogin();
 
         //create rest adapter and usersService
         if (mRestAdapter == null) {
@@ -71,27 +73,10 @@ public class LoginFragment extends Fragment {
 
     private void checkFacebookLogin() {
        AccessToken token = AccessToken.getCurrentAccessToken();
-       if (token != null && token.getToken() != null){
-           LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-               @Override
-               public void onSuccess(LoginResult loginResult) {
-                   mAccessToken = loginResult.getAccessToken();
-                   Intent i = new Intent(getActivity(), ParkListActivity.class);
-                   i.putExtra(EXTRA_ACCESS_TOKEN, mAccessToken);
-                   startActivity(i);
-               }
-
-               @Override
-               public void onCancel() {
-
-               }
-
-               @Override
-               public void onError(FacebookException e) {
-
-               }
-           });
-           LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(FACEBOOK_PERMISSIONS));
+       if (token != null && !token.isExpired()){
+           Intent i = new Intent(getActivity(), ParkListActivity.class);
+           i.putExtra(EXTRA_ACCESS_TOKEN, token);
+           startActivity(i);
        }
     }
 
@@ -112,9 +97,8 @@ public class LoginFragment extends Fragment {
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                mAccessToken = loginResult.getAccessToken();
                 Intent i = new Intent(getActivity(), AddDogActivity.class);
-                i.putExtra(EXTRA_ACCESS_TOKEN, mAccessToken);
+                i.putExtra(EXTRA_ACCESS_TOKEN, loginResult.getAccessToken());
                 startActivity(i);
             }
 
