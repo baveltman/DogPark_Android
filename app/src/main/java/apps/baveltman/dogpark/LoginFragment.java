@@ -1,6 +1,6 @@
 package apps.baveltman.dogpark;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
-import java.util.List;
 
 import apps.baveltman.dogpark.models.User;
 import apps.baveltman.dogpark.models.UserResponse;
@@ -37,6 +34,7 @@ public class LoginFragment extends Fragment {
 
     //constants
     private static final String LOGGER_TAG = "LoginFragment";
+    private static final String EXTRA_ACCESS_TOKEN = "apps.baveltman.doppark.ACCESS_TOKEN";
     private static final String[] FACEBOOK_PERMISSIONS = new String [] {"public_profile", "email", "user_friends"};
 
     //instance vars
@@ -88,6 +86,9 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 mAccessToken = loginResult.getAccessToken();
+                Intent i = new Intent(getActivity(), AddDogActivity.class);
+                i.putExtra(EXTRA_ACCESS_TOKEN, mAccessToken);
+                startActivity(i);
             }
 
             @Override
@@ -122,6 +123,12 @@ public class LoginFragment extends Fragment {
 
         // Facebook logging: Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(getActivity());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 
