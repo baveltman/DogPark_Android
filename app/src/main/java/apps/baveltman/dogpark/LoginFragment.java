@@ -17,6 +17,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -68,6 +69,32 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    private void checkFacebookLogin() {
+       AccessToken token = AccessToken.getCurrentAccessToken();
+       if (token != null && token.getToken() != null){
+           LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+               @Override
+               public void onSuccess(LoginResult loginResult) {
+                   mAccessToken = loginResult.getAccessToken();
+                   Intent i = new Intent(getActivity(), ParkListActivity.class);
+                   i.putExtra(EXTRA_ACCESS_TOKEN, mAccessToken);
+                   startActivity(i);
+               }
+
+               @Override
+               public void onCancel() {
+
+               }
+
+               @Override
+               public void onError(FacebookException e) {
+
+               }
+           });
+           LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(FACEBOOK_PERMISSIONS));
+       }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
@@ -115,6 +142,7 @@ public class LoginFragment extends Fragment {
 
         // Facebook logging: Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(getActivity());
+        checkFacebookLogin();
     }
 
     @Override
@@ -131,12 +159,11 @@ public class LoginFragment extends Fragment {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
     /**
      * POST to /users/ and create newUser
      * @param newUser is the user to be created
      */
-    private void CreateUser(User newUser){
+    private void createUser(User newUser){
         mUsersService.createUser(newUser, new Callback<UserResponse>() {
             @Override
             public void success(UserResponse userResponse, Response response) {
