@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">DogPark</string>
+    <string name="facebook_app_id">1560769494179002</string>
+    <string name="facebook_login_canceled">Facebook login canceled</string>
+    <string name="facebook_login_failed">Facebook login failed. Please try again.</string>
     <string name="app_display_name">Dog Park</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
