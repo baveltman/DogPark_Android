@@ -13,7 +13,7 @@ import retrofit.http.Path;
  */
 public interface UsersService {
 
-    static final String LOGGER_TAG = "UsersClient";
+    static final String LOGGER_TAG = "UsersService";
     static final String USERS_ENDPOINT = "localhost:3000/";
 
     @GET("/users/{facebookId}")

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,16 +17,19 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONObject;
+
 import java.util.Arrays;
-import java.util.Date;
 
 import apps.baveltman.dogpark.models.User;
 import apps.baveltman.dogpark.models.UserResponse;
+import apps.baveltman.dogpark.services.FacebookService;
 import apps.baveltman.dogpark.services.UsersService;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -41,9 +45,12 @@ public class LoginFragment extends Fragment {
 
     //instance vars
     private LoginButton mLoginButton;
+    private ProgressBar mProgressBar;
     private CallbackManager mCallbackManager;
-    private RestAdapter mRestAdapter;
+    private RestAdapter mDogParkRestAdapter;
     private UsersService mUsersService;
+    private RestAdapter mFacebookRestAdapter;
+    private FacebookService mFacebookService;
     private User mUser;
 
     @Override
@@ -58,16 +65,28 @@ public class LoginFragment extends Fragment {
 
         checkFacebookLogin();
 
-        //create rest adapter and usersService
-        if (mRestAdapter == null) {
-            mRestAdapter = new RestAdapter.Builder()
+        //create DogPark rest adapter and usersService
+        if (mDogParkRestAdapter == null) {
+            mDogParkRestAdapter = new RestAdapter.Builder()
                     .setEndpoint(UsersService.USERS_ENDPOINT)
                     .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build();
         }
 
         if (mUsersService == null) {
-            mUsersService = mRestAdapter.create(UsersService.class);
+            mUsersService = mDogParkRestAdapter.create(UsersService.class);
+        }
+
+        //create Facebook RestAdapter and service
+        if (mFacebookRestAdapter == null){
+            mFacebookRestAdapter = new RestAdapter.Builder()
+                    .setEndpoint(FacebookService.ENDPOINT)
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build();
+        }
+
+        if (mFacebookService == null){
+            mFacebookService = mFacebookRestAdapter.create(FacebookService.class);
         }
     }
 
@@ -89,6 +108,9 @@ public class LoginFragment extends Fragment {
         TextView logoText = (TextView)v.findViewById(R.id.dogpark_logo_text);
         logoText.setTypeface(myTypeface);
 
+        mProgressBar = (ProgressBar)v.findViewById(R.id.login_progress_bar);
+        mProgressBar.setVisibility(View.INVISIBLE);
+
         mLoginButton = (LoginButton) v.findViewById(R.id.facebook_login_button);
         mLoginButton.setReadPermissions(Arrays.asList(FACEBOOK_PERMISSIONS));
         mLoginButton.setFragment(this);
@@ -97,9 +119,8 @@ public class LoginFragment extends Fragment {
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent i = new Intent(getActivity(), AddDogActivity.class);
-                i.putExtra(EXTRA_ACCESS_TOKEN, loginResult.getAccessToken());
-                startActivity(i);
+                mProgressBar.setVisibility(View.VISIBLE);
+                getAndSaveFacebookUser(loginResult);
             }
 
             @Override
@@ -121,12 +142,18 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        checkFacebookLogin();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
         // Facebook logging: Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(getActivity());
-        checkFacebookLogin();
+
     }
 
     @Override
@@ -141,6 +168,25 @@ public class LoginFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void getAndSaveFacebookUser(LoginResult loginResult){
+
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+
+                        Log.i(LOGGER_TAG, "succesfully got facebook user: " + object.toString());
+                        Intent i = new Intent(getActivity(), AddDogActivity.class);
+                        startActivity(i);
+
+                    }
+                });
+            request.executeAsync();
     }
 
     /**

@@ -12,149 +12,112 @@ public class User {
     @SerializedName("id")
     private int mId;
 
-    @SerializedName("facebookId")
-    private int mFacebookId;
+    @SerializedName("active")
+    private int mActive;
+
+    @SerializedName("first_name")
+    private String mFirstName;
 
     @SerializedName("email")
     private String mEmail;
 
-    @SerializedName("birthdate")
-    private String mBirthdate;
+    @SerializedName("timezone")
+    private int mTimeZone;
+
+    @SerializedName("name")
+    private int mFullName;
+
+    @SerializedName("locale")
+    private int mLocale;
+
+    @SerializedName("last_name")
+    private int mLastName;
 
     @SerializedName("gender")
-    private Gender mGender;
+    private String mGender;
 
     @SerializedName("description")
-    private String mDescription;
-
-    @SerializedName("active")
-    private int mActive;
+    private int mDescription;
 
 
-    /**
-     *
-     * @return
-     * The id
-     */
+
     public int getId() {
         return mId;
     }
 
-    /**
-     *
-     * @param id
-     * The id
-     */
     public void setId(Integer id) {
         mId = id;
     }
 
-    /**
-     *
-     * @return
-     * The facebookId
-     */
-    public int getFacebookId() {
-        return mFacebookId;
-    }
-
-    /**
-     *
-     * @param facebookId
-     * The facebookId
-     */
-    public void setFacebookId(Integer facebookId) {
-        mFacebookId = facebookId;
-    }
-
-    /**
-     *
-     * @return
-     * The email
-     */
     public String getEmail() {
         return mEmail;
     }
 
-    /**
-     *
-     * @param email
-     * The email
-     */
     public void setEmail(String email) {
         mEmail = email;
     }
 
-    /**
-     *
-     * @return
-     * The birthdate
-     */
-    public String getBirthdate() {
-        return mBirthdate;
-    }
-
-    /**
-     *
-     * @param birthdate
-     * The birthdate
-     */
-    public void setBirthdate(String birthdate) {
-        mBirthdate = birthdate;
-    }
-
-    /**
-     *
-     * @return
-     * The gender
-     */
-    public Gender getGender() {
-        return mGender;
-    }
-
-    /**
-     *
-     * @param gender
-     * The gender
-     */
-    public void setGender(Gender gender) {
-        mGender = gender;
-    }
-
-    /**
-     *
-     * @return
-     * The description
-     */
-    public String getDescription() {
-        return mDescription;
-    }
-
-    /**
-     *
-     * @param description
-     * The description
-     */
-    public void setDescription(String description) {
-        mDescription = description;
-    }
-
-    /**
-     *
-     * @return
-     * The active
-     */
     public int getActive() {
         return mActive;
     }
 
-    /**
-     *
-     * @param active
-     * The active
-     */
     public void setActive(Integer active) {
         mActive = active;
     }
 
+    public String getFirstName() {
+        return mFirstName;
+    }
+
+    public void setFirstName(String mFirstName) {
+        this.mFirstName = mFirstName;
+    }
+
+    public int getTimeZone() {
+        return mTimeZone;
+    }
+
+    public void setTimeZone(int mTimeZone) {
+        this.mTimeZone = mTimeZone;
+    }
+
+    public int getFullName() {
+        return mFullName;
+    }
+
+    public void setFullName(int mFullName) {
+        this.mFullName = mFullName;
+    }
+
+    public int getLocale() {
+        return mLocale;
+    }
+
+    public void setLocale(int mLocale) {
+        this.mLocale = mLocale;
+    }
+
+    public int getLastName() {
+        return mLastName;
+    }
+
+    public void setLastName(int mLastName) {
+        this.mLastName = mLastName;
+    }
+
+    public String getGender() {
+        return mGender;
+    }
+
+    public void setGender(String mGender) {
+        this.mGender = mGender;
+    }
+
+    public int getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(int mDescription) {
+        this.mDescription = mDescription;
+    }
 }
