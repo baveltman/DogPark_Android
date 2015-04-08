@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".LoginActivity"
+    android:id="@+id/login_layout"
+    android:background="#E66B25"
+    >
+
+    <ImageView
+        android:id="@+id/temp_dogpark_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/temp_dogpark_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-20dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_display_name"
+        android:layout_centerHorizontal="true"
+        android:textSize="54dp"
+        android:textColor="#301712"
+        android:id="@+id/dogpark_logo_text"
+        android:layout_below="@id/temp_dogpark_logo"
+        android:layout_marginTop="-80dp"/>
+
+    <ProgressBar
+        android:id="@+id/login_progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/dogpark_logo_text"
+        android:layout_marginBottom="45dp"
+        style="@android:style/Widget.ProgressBar.Large"/>
+
+
+       <com.facebook.login.widget.LoginButton
+           android:id="@+id/facebook_login_button"
+           android:layout_width="300dp"
+           android:layout_height="46dp"
+           android:layout_centerHorizontal="true"
+           android:layout_below="@id/dogpark_logo_text"
+           android:padding="30dp"
+           android:layout_marginTop="10dp"/>
+
+
+</RelativeLayout>
