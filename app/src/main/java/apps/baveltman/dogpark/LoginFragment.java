@@ -22,6 +22,7 @@ import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class LoginFragment extends Fragment {
     private RestAdapter mFacebookRestAdapter;
     private FacebookService mFacebookService;
     private User mUser;
+    private User mFacebookUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -180,51 +182,62 @@ public class LoginFragment extends Fragment {
                             JSONObject object,
                             GraphResponse response) {
 
-                        Log.i(LOGGER_TAG, "succesfully got facebook user: " + object.toString());
-                        Intent i = new Intent(getActivity(), AddDogActivity.class);
-                        startActivity(i);
+                        Log.i(LOGGER_TAG, "returned user from facebook" + object.toString());
+
+                        //parse facebook user
+                        Gson gson = new Gson();
+                        mFacebookUser = gson.fromJson(object.toString(), User.class);
+                        if (mFacebookUser != null && mFacebookUser.getId() != null){
+                            //check if user already in dogpark DB
+                            mUsersService.getUserByFacebookId(mFacebookUser.getId(), new Callback<UserResponse>() {
+                                @Override
+                                public void success(UserResponse userResponse, Response response) {
+                                    Log.i(LOGGER_TAG, "user info returned from dogpark");
+                                    if (userResponse.getUser() != null){
+                                        //user already exists
+                                        mUser = userResponse.getUser();
+                                        redirectToParkList();
+                                    } else {
+                                        //user does not exist, create and redirect to add dog activity
+                                        mUsersService.createUser(mFacebookUser, new Callback<UserResponse>() {
+                                            @Override
+                                            public void success(UserResponse userResponse, Response response) {
+                                                Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getId());
+                                                mUser = userResponse.getUser();
+                                                redirectToAddDog();
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                Log.i(LOGGER_TAG, "user creation failed");
+                                                Toast.makeText(getActivity(),
+                                                        R.string.facebook_login_failed,
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void failure(RetrofitError retrofitError) {
+                                    Log.i(LOGGER_TAG, "bad shit happened, couldn't get user");
+                                }
+                            });
+                        }
 
                     }
                 });
             request.executeAsync();
     }
 
-    /**
-     * POST to /users/ and create newUser
-     * @param newUser is the user to be created
-     */
-    private void createUser(User newUser){
-        mUsersService.createUser(newUser, new Callback<UserResponse>() {
-            @Override
-            public void success(UserResponse userResponse, Response response) {
-                Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getFacebookId());
-                mUser = userResponse.getUser();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.i(LOGGER_TAG, "user creation failed");
-            }
-        });
+    private void redirectToAddDog() {
+        Intent i = new Intent(getActivity(), AddDogActivity.class);
+        startActivity(i);
     }
 
-    /**
-     * returns User instance by doing GET to /users/{facebookId}
-     * @param facebookId facebookId of user to be returned
-     */
-    private void getUser(int facebookId){
-        mUsersService.getUserByFacebookId(facebookId, new Callback<UserResponse>() {
-            @Override
-            public void success(UserResponse userResponse, Response response) {
-                Log.i(LOGGER_TAG, "user info returned: " + userResponse.getUser().getFacebookId());
-                mUser = userResponse.getUser();
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Log.i(LOGGER_TAG, "bad shit happened");
-            }
-        });
+    private void redirectToParkList() {
+        Intent i = new Intent(getActivity(), ParkListActivity.class);
+        startActivity(i);
     }
 
 }

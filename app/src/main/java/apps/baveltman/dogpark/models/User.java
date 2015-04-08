@@ -10,7 +10,7 @@ import apps.baveltman.dogpark.Enums.Gender;
 public class User {
 
     @SerializedName("id")
-    private int mId;
+    private String mId;
 
     @SerializedName("active")
     private int mActive;
@@ -25,27 +25,26 @@ public class User {
     private int mTimeZone;
 
     @SerializedName("name")
-    private int mFullName;
+    private String mFullName;
 
     @SerializedName("locale")
-    private int mLocale;
+    private String mLocale;
 
     @SerializedName("last_name")
-    private int mLastName;
+    private String mLastName;
 
     @SerializedName("gender")
     private String mGender;
 
     @SerializedName("description")
-    private int mDescription;
+    private String mDescription;
 
 
-
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         mId = id;
     }
 
@@ -81,27 +80,27 @@ public class User {
         this.mTimeZone = mTimeZone;
     }
 
-    public int getFullName() {
+    public String getFullName() {
         return mFullName;
     }
 
-    public void setFullName(int mFullName) {
+    public void setFullName(String mFullName) {
         this.mFullName = mFullName;
     }
 
-    public int getLocale() {
+    public String getLocale() {
         return mLocale;
     }
 
-    public void setLocale(int mLocale) {
+    public void setLocale(String mLocale) {
         this.mLocale = mLocale;
     }
 
-    public int getLastName() {
+    public String getLastName() {
         return mLastName;
     }
 
-    public void setLastName(int mLastName) {
+    public void setLastName(String mLastName) {
         this.mLastName = mLastName;
     }
 
@@ -113,11 +112,11 @@ public class User {
         this.mGender = mGender;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return mDescription;
     }
 
-    public void setDescription(int mDescription) {
+    public void setDescription(String mDescription) {
         this.mDescription = mDescription;
     }
 }
