@@ -25,6 +25,18 @@ public class AddDogFragment extends Fragment {
 
         Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "BEBAS.ttf");
 
+        TextView nameBox = (TextView)v.findViewById(R.id.name_box);
+        nameBox.setTypeface(myTypeface);
+
+        TextView addDogBox = (TextView)v.findViewById(R.id.add_dog_text);
+        addDogBox.setTypeface(myTypeface);
+
+        TextView name = (TextView)v.findViewById(R.id.name);
+        name.setTypeface(myTypeface);
+
+        TextView addDogButton = (TextView)v.findViewById(R.id.add_dog_button);
+        addDogButton.setTypeface(myTypeface);
+
         return v;
     }
 }
