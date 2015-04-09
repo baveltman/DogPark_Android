@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="dogpark_orange" type="color">#E66B25</item>
+    <item name="dark_brown" type="color">#301712</item>
+    <item name="dogpark_dark_blue" type="color">#3079AB</item>
+    <item name="dogpark_blue" type="color">#39ADD1</item>
+    <item name="light_gray" type="color">#F2F2F2</item>
+</resources>
