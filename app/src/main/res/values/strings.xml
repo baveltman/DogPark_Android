@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name">DogPark</string>
     <string name="facebook_app_id">1560769494179002</string>
+
     <string name="facebook_login_canceled">Facebook login canceled</string>
     <string name="facebook_login_failed">Facebook login failed. Please try again.</string>
     <string name="facebook_logout_success">Successfully logged out</string>
     <string name="app_display_name">Dog Park</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="dog_info">Tell us about your fur monster...</string>
-    <string name="hi">Hi, Boris.</string>
-    <string name="add_dog_pic">Add dog picture!</string>
-    <string name="dog_description">Describe&#10;your&#10;doggy…</string>
+    <string name="hi">Hi, %s</string>
+    <string name="dog_name">Dog\'s name</string>
+    <string name="dog_pic">Add Picture</string>
 </resources>

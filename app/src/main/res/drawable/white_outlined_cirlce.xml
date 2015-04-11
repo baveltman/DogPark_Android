@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="ring"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="0dp"
+    android:thicknessRatio="3">
+    <solid android:color="#ffffff"/>
+    <stroke android:width="5dip"
+        android:color="@color/dogpark_orange"
+     />
+
+</shape>

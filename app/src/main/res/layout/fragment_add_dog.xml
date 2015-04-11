@@ -11,52 +11,43 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="20dp">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#FFF"
-            android:layout_weight="2"
-            android:layout_margin="10dp"/>
+        android:padding="10dp"
+        android:background="@color/dogpark_orange">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/white_outlined_cirlce"
+              />
 
             <TextView
-                android:id="@+id/name"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/light_gray"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
+                android:id="@+id/user_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/hi"
-                android:textColor="#000"
+                android:layout_marginTop="-10dp"
                 android:textSize="30dp"
-                android:gravity="left"
-
+                android:textColor="#FFF"
                 />
 
-                <TextView
-                    android:id="@+id/name_box"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@color/dogpark_blue"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:text="change photo"
-                    android:textColor="#FFF"
-                    android:textSize="25dp"
-                    android:gravity="center"
-                    android:padding="10dp"
-
-                    />
 
         </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
 
     </LinearLayout>
 
@@ -65,84 +56,53 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="20dp">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#FFF"
-            android:layout_weight="2"
-            android:layout_margin="10dp"/>
+        android:padding="10dp"
+        android:background="#FFF">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/add_dog_text"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/light_gray"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:text="Dog picture"
-                android:textColor="#000"
-                android:textSize="30dp"
-                android:gravity="left"
-                android:padding="10dp"
-
+            <ImageView
+                android:id="@+id/dog_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/white_outlined_cirlce"
                 />
 
-            <TextView
-                android:id="@+id/add_dog_button"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/dogpark_dark_blue"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:text="Add"
-                android:textColor="#FFF"
-                android:textSize="25dp"
-                android:gravity="center"
-                android:padding="10dp"
+        </LinearLayout>
 
-                />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+         <EditText
+             android:id="@+id/dog_name"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:hint="@string/dog_name"/>
+
+            <Button
+                android:id="@+id/dog_pic_button"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dog_pic"
+                android:background="@drawable/light_blue_button"
+                android:padding="10dp"/>
+
+
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:padding="20dp">
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#FFF"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:hint="@string/dog_description"
-            android:maxLength="500"
-            android:cursorVisible="true"
-            android:padding="20dp"
-            android:textSize="20dp"/>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/dog_bone_50_white"
-            android:layout_weight="2"
-            android:background="@color/dogpark_orange"
-            android:layout_margin="10dp"
-            android:padding="20dp"
-            />
-
-    </LinearLayout>
 
 </LinearLayout>
