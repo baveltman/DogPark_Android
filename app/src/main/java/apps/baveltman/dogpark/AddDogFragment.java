@@ -1,6 +1,8 @@
 package apps.baveltman.dogpark;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.os.AsyncTask;
@@ -20,8 +22,11 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import apps.baveltman.dogpark.helpers.ImageHelper;
 
 public class AddDogFragment extends Fragment {
 
@@ -81,11 +86,15 @@ public class AddDogFragment extends Fragment {
     public void onStart() {
         super.onStart();
         getCurrentFacebookProfile();
-        setProfileSpecificView();
+        if (mFacebookProfile != null){
+            setProfileSpecificView();
+        }
     }
 
     private void setProfileSpecificView() {
         mUserGreeting.setText(getString(R.string.hi, mFacebookProfile.getFirstName()));
+        DownloadProfilePicTask picTask = new DownloadProfilePicTask();
+        picTask.execute(new String[] {mFacebookProfile.getId()});
     }
 
     @Override
@@ -111,20 +120,33 @@ public class AddDogFragment extends Fragment {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private class DownloadProfilePic extends AsyncTask<String, String, URL> {
+    private class DownloadProfilePicTask extends AsyncTask<String, String, Bitmap> {
 
         @Override
-        protected URL doInBackground(String... params) {
-            try {
-                URL imageURL = new URL("https://graph.facebook.com/" + 123 + "/picture?type=large");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+        protected Bitmap doInBackground(String... params) {
+            String id = params[0];
+            if (id != null) {
+                try {
+                    URL imageURL = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
+                    Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                    return bitmap;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
+
             return null;
         }
 
-        protected void onPostExecute(URL imageUrl) {
-
+        protected void onPostExecute(Bitmap image) {
+            if (image != null){
+                Bitmap roundedImage = ImageHelper.getRoundedCornerBitmap(image, 150);
+                mUserImage.setImageBitmap(roundedImage);
+            }
         }
     }
 
