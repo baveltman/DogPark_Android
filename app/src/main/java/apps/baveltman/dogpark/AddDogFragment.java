@@ -35,7 +35,7 @@ public class AddDogFragment extends Fragment {
     private ImageView mUserImage;
     private ImageView mDogImage;
     private EditText mDogName;
-    private Button mDogPicButton;
+    private TextView mDogPicButton;
     private CallbackManager mCallbackManager;
     private Profile mFacebookProfile;
 
@@ -76,7 +76,7 @@ public class AddDogFragment extends Fragment {
         mDogName = (EditText)v.findViewById(R.id.dog_name);
         mDogName.setTypeface(mTypeFace);
 
-        mDogPicButton = (Button)v.findViewById(R.id.dog_pic_button);
+        mDogPicButton = (TextView)v.findViewById(R.id.dog_pic_button);
         mDogPicButton.setTypeface(mTypeFace);
 
         return v;
