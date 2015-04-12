@@ -1,6 +1,7 @@
 package apps.baveltman.dogpark;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -135,13 +137,29 @@ public class AddDogFragment extends Fragment {
                             if (!event.isShiftPressed()) {
                                 // the user is done typing. update dog with new info
                                 updateDogWithNameInfo(mDogName.getText().toString());
+                                closeInputAndHideKeyboard();
 
-                                return true; // consume.
+                                return true;
                             }
                         }
                         return false; // pass on to other listeners.
                     }
                 });
+    }
+
+    private void closeInputAndHideKeyboard() {
+        InputMethodManager inputManager =
+                (InputMethodManager) getActivity().
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        View currentFocus = getActivity().getCurrentFocus();
+
+        if (inputManager != null && currentFocus != null){
+            inputManager.hideSoftInputFromWindow(
+                    getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
     }
 
     private void updateDogWithNameInfo(String dogText) {
