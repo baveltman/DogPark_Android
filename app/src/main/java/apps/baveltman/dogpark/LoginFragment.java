@@ -94,7 +94,7 @@ public class LoginFragment extends Fragment {
     private void checkFacebookLogin() {
        AccessToken token = AccessToken.getCurrentAccessToken();
        if (token != null && !token.isExpired()){
-           redirectToParkList();
+           redirectToPagerFragment();
        }
     }
 
@@ -197,16 +197,14 @@ public class LoginFragment extends Fragment {
                                             @Override
                                             public void success(UserResponse userResponse, Response response) {
                                                 Log.i(LOGGER_TAG, "existing user updated, id: " + userResponse.getUser().getId());
-                                                //redirectToParkList();
-                                                redirectToAddDog();
+                                                redirectToPagerFragment();
                                             }
 
                                             @Override
                                             public void failure(RetrofitError error) {
                                                 Log.i(LOGGER_TAG, "existing user update FAILED, id: " + mFacebookUser.getId() + " message: " + error.getMessage().toString());
                                                 error.printStackTrace();
-                                                //redirectToParkList();
-                                                redirectToAddDog();
+                                                redirectToPagerFragment();
                                             }
                                         });
 
@@ -216,7 +214,7 @@ public class LoginFragment extends Fragment {
                                             @Override
                                             public void success(UserResponse userResponse, Response response) {
                                                 Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getId());
-                                                redirectToAddDog();
+                                                redirectToPagerFragment();
                                             }
 
                                             @Override
@@ -241,6 +239,11 @@ public class LoginFragment extends Fragment {
                     }
                 });
             request.executeAsync();
+    }
+
+    private void redirectToPagerFragment() {
+        Intent i = new Intent(getActivity(), PagerActivity.class);
+        startActivity(i);
     }
 
     private void redirectToAddDog() {
