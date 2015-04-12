@@ -60,6 +60,8 @@ public class LoginFragment extends Fragment {
 
         setRetainInstance(true);
 
+        getActivity().getActionBar().hide();
+
         //initialize Facebook SDK
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
