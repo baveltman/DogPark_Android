@@ -94,9 +94,7 @@ public class LoginFragment extends Fragment {
     private void checkFacebookLogin() {
        AccessToken token = AccessToken.getCurrentAccessToken();
        if (token != null && !token.isExpired()){
-           Intent i = new Intent(getActivity(), ParkListActivity.class);
-           i.putExtra(EXTRA_ACCESS_TOKEN, token);
-           startActivity(i);
+           redirectToParkList();
        }
     }
 
@@ -199,14 +197,16 @@ public class LoginFragment extends Fragment {
                                             @Override
                                             public void success(UserResponse userResponse, Response response) {
                                                 Log.i(LOGGER_TAG, "existing user updated, id: " + userResponse.getUser().getId());
-                                                redirectToParkList();
+                                                //redirectToParkList();
+                                                redirectToAddDog();
                                             }
 
                                             @Override
                                             public void failure(RetrofitError error) {
                                                 Log.i(LOGGER_TAG, "existing user update FAILED, id: " + mFacebookUser.getId() + " message: " + error.getMessage().toString());
                                                 error.printStackTrace();
-                                                redirectToParkList();
+                                                //redirectToParkList();
+                                                redirectToAddDog();
                                             }
                                         });
 

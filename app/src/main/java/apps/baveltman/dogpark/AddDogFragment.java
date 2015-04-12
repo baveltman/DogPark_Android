@@ -219,6 +219,7 @@ public class AddDogFragment extends Fragment {
                     if (dogResponse.getDog() != null && dogResponse.getDog().getPicUrl() != null){
                         mDog = dogResponse.getDog();
                         setDogPic(dogResponse.getDog().getPicUrl());
+                        setDogDescription(dogResponse.getDog().getDescription());
                     }
                 }
 
@@ -228,6 +229,10 @@ public class AddDogFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void setDogDescription(String description) {
+        mDogName.setText(description);
     }
 
     private void setDogPic(String picUrl) {

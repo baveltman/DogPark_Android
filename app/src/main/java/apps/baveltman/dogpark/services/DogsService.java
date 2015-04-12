@@ -16,8 +16,8 @@ public interface DogsService {
     static final String LOGGER_TAG = "DogsService";
     static final String ENDPOINT = "http://dogpark-baveltman.rhcloud.com";
 
-    @GET("/dogs/{facebookId}")
-    void getByFacebookId(@Path("facebookId") String facebookId, Callback<DogResponse> callback);
+    @GET("/dogs/{userId}")
+    void getByFacebookId(@Path("userId") String userId, Callback<DogResponse> callback);
 
     @POST("/dogs/")
     void createDog(@Body Dog dog, Callback<DogResponse> callback);

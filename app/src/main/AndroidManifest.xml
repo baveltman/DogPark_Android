@@ -3,6 +3,7 @@
     package="apps.baveltman.dogpark" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -23,21 +24,17 @@
             android:name=".LoginActivity"
             android:label="@string/app_name"
             >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-
-        <activity android:name=".AddDogActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".AddDogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+
         </activity>
 
         <activity android:name=".ParkListActivity"
