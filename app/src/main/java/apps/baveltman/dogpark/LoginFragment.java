@@ -194,9 +194,23 @@ public class LoginFragment extends Fragment {
                                 public void success(UserResponse userResponse, Response response) {
                                     Log.i(LOGGER_TAG, "user info returned from dogpark");
                                     if (userResponse.getUser() != null){
-                                        //user already exists
-                                        mUser = userResponse.getUser();
-                                        redirectToParkList();
+                                        //user already exists, update existing user
+
+                                        mUsersService.updateUser(mFacebookUser, new Callback<UserResponse>() {
+                                            @Override
+                                            public void success(UserResponse userResponse, Response response) {
+                                                Log.i(LOGGER_TAG, "existing user updated, id: " + userResponse.getUser().getId());
+                                                redirectToParkList();
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                Log.i(LOGGER_TAG, "existing user update FAILED, id: " + mFacebookUser.getId() + " message: " + error.getMessage().toString());
+                                                error.printStackTrace();added
+                                                redirectToParkList();
+                                            }
+                                        });
+
                                     } else {
                                         //user does not exist, create and redirect to add dog activity
                                         mUsersService.createUser(mFacebookUser, new Callback<UserResponse>() {
@@ -221,6 +235,7 @@ public class LoginFragment extends Fragment {
                                 @Override
                                 public void failure(RetrofitError retrofitError) {
                                     Log.i(LOGGER_TAG, "bad shit happened, couldn't get user");
+                                    retrofitError.printStackTrace();
                                 }
                             });
                         }
