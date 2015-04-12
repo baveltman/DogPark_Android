@@ -6,6 +6,7 @@ import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
@@ -21,6 +22,9 @@ public interface UsersService {
 
     @POST("/users/")
     void createUser(@Body User user, Callback<UserResponse> callback);
+
+    @PUT("/users/")
+    void updateUser(@Body User user, Callback<UserResponse> callback);
 
 
 }

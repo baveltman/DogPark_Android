@@ -32,12 +32,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import apps.baveltman.dogpark.helpers.ImageHelper;
+import apps.baveltman.dogpark.services.FacebookService;
 
 public class AddDogFragment extends Fragment {
 
     //code to be sought on activity result
     private static final int SELECT_PICTURE = 1;
     private static final String TAG = "AddDogFragment";
+
 
     private Typeface mTypeFace;
     private TextView mUserGreeting;
@@ -174,7 +176,7 @@ public class AddDogFragment extends Fragment {
             String id = params[0];
             if (id != null) {
                 try {
-                    URL imageURL = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
+                    URL imageURL = new URL(String.format(FacebookService.IMAGE_URI, id));
                     Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
                     return bitmap;
                 } catch (MalformedURLException e) {

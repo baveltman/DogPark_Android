@@ -15,6 +15,7 @@ public interface FacebookService {
 
     static final String LOGGER_TAG = "FacebookService";
     static final String ENDPOINT = "https://graph.facebook.com";
+    static final String IMAGE_URI = "https://graph.facebook.com/%s/picture?type=large";
 
     @GET("/v2.3/{facebookId}")
     void getUserByFacebookId(@Path("facebookId") String facebookId, Callback<JSONObject> callback);
