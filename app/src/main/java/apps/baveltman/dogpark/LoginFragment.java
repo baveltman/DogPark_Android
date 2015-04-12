@@ -206,7 +206,7 @@ public class LoginFragment extends Fragment {
                                             @Override
                                             public void failure(RetrofitError error) {
                                                 Log.i(LOGGER_TAG, "existing user update FAILED, id: " + mFacebookUser.getId() + " message: " + error.getMessage().toString());
-                                                error.printStackTrace();added
+                                                error.printStackTrace();
                                                 redirectToParkList();
                                             }
                                         });
