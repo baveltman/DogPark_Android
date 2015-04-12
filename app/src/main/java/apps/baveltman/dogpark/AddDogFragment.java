@@ -1,13 +1,18 @@
 package apps.baveltman.dogpark;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +34,10 @@ import java.net.URL;
 import apps.baveltman.dogpark.helpers.ImageHelper;
 
 public class AddDogFragment extends Fragment {
+
+    //code to be sought on activity result
+    private static final int SELECT_PICTURE = 1;
+    private static final String TAG = "AddDogFragment";
 
     private Typeface mTypeFace;
     private TextView mUserGreeting;
@@ -79,7 +88,24 @@ public class AddDogFragment extends Fragment {
         mDogPicButton = (TextView)v.findViewById(R.id.dog_pic_button);
         mDogPicButton.setTypeface(mTypeFace);
 
+        bindDogPicButtonEvents();
+
         return v;
+    }
+
+    private void bindDogPicButtonEvents() {
+        mDogPicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in onCreate or any event where your want the user to
+                // select a file
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Picture"), SELECT_PICTURE);
+            }
+        });
     }
 
     @Override
@@ -118,6 +144,27 @@ public class AddDogFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                Uri selectedImageUri = data.getData();
+                Log.i(TAG, "recived dog image Uri: " + selectedImageUri.toString());
+
+                if (selectedImageUri != null){
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                        if (bitmap != null){
+                            Bitmap correctDimensionBitmap = ThumbnailUtils.extractThumbnail(bitmap, 200, 200);
+                            Bitmap roundedImage = ImageHelper.getRoundedCornerBitmap(correctDimensionBitmap, 150);
+                            mDogImage.setImageBitmap(roundedImage);
+                            mDogPicButton.setText(R.string.change_dog_pic);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private class DownloadProfilePicTask extends AsyncTask<String, String, Bitmap> {
