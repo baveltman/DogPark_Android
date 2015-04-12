@@ -10,7 +10,7 @@ public class DogResponse {
     private int mErrorCount;
 
     @SerializedName("dog")
-    private User mUser;
+    private Dog mDog;
 
     @SerializedName("message")
     private String mErrorMessage;
@@ -23,12 +23,12 @@ public class DogResponse {
         this.mErrorCount = mErrorCount;
     }
 
-    public User getUser() {
-        return mUser;
+    public Dog getDog() {
+        return mDog;
     }
 
-    public void setUser(User mUser) {
-        this.mUser = mUser;
+    public void setDog(Dog dog) {
+        this.mDog = dog;
     }
 
     public String getErrorMessage() {

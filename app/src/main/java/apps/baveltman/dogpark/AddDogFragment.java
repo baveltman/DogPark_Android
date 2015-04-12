@@ -32,7 +32,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import apps.baveltman.dogpark.helpers.ImageHelper;
+import apps.baveltman.dogpark.models.Dog;
+import apps.baveltman.dogpark.models.DogResponse;
+import apps.baveltman.dogpark.services.DogsService;
 import apps.baveltman.dogpark.services.FacebookService;
+import apps.baveltman.dogpark.services.UsersService;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class AddDogFragment extends Fragment {
 
@@ -50,6 +58,10 @@ public class AddDogFragment extends Fragment {
     private CallbackManager mCallbackManager;
     private Profile mFacebookProfile;
 
+    private RestAdapter mDogParkRestAdapter;
+    private DogsService mDogService;
+    private Dog mDog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +71,18 @@ public class AddDogFragment extends Fragment {
         //initialize Facebook SDK
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
+
+        //create DogPark rest adapter and DogsService
+        if (mDogParkRestAdapter == null) {
+            mDogParkRestAdapter = new RestAdapter.Builder()
+                    .setEndpoint(DogsService.ENDPOINT)
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build();
+        }
+
+        if (mDogService == null) {
+            mDogService = mDogParkRestAdapter.create(DogsService.class);
+        }
 
     }
 
@@ -123,6 +147,46 @@ public class AddDogFragment extends Fragment {
         mUserGreeting.setText(getString(R.string.hi, mFacebookProfile.getFirstName()));
         DownloadProfilePicTask picTask = new DownloadProfilePicTask();
         picTask.execute(new String[] {mFacebookProfile.getId()});
+
+        getDogDetails();
+    }
+
+    private void getDogDetails() {
+        if (mFacebookProfile != null) {
+            mDogService.getByFacebookId(mFacebookProfile.getId(), new Callback<DogResponse>() {
+                @Override
+                public void success(DogResponse dogResponse, Response response) {
+                    if (dogResponse.getDog() != null && dogResponse.getDog().getPicUrl() != null){
+                        mDog = dogResponse.getDog();
+                        setDogPic(dogResponse.getDog().getPicUrl());
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+        }
+    }
+
+    private void setDogPic(String picUrl) {
+        Uri uri = Uri.parse(picUrl);
+        setDogPic(uri);
+    }
+
+    private void setDogPic(Uri uri){
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            if (bitmap != null){
+                Bitmap correctDimensionBitmap = ThumbnailUtils.extractThumbnail(bitmap, 200, 200);
+                Bitmap roundedImage = ImageHelper.getRoundedCornerBitmap(correctDimensionBitmap, 150);
+                mDogImage.setImageBitmap(roundedImage);
+                mDogPicButton.setText(R.string.change_dog_pic);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -153,19 +217,43 @@ public class AddDogFragment extends Fragment {
                 Log.i(TAG, "recived dog image Uri: " + selectedImageUri.toString());
 
                 if (selectedImageUri != null){
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                        if (bitmap != null){
-                            Bitmap correctDimensionBitmap = ThumbnailUtils.extractThumbnail(bitmap, 200, 200);
-                            Bitmap roundedImage = ImageHelper.getRoundedCornerBitmap(correctDimensionBitmap, 150);
-                            mDogImage.setImageBitmap(roundedImage);
-                            mDogPicButton.setText(R.string.change_dog_pic);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    updateDogDataWithNewImage(selectedImageUri.toString());
+                    setDogPic(selectedImageUri);
                 }
             }
+        }
+    }
+
+    private void updateDogDataWithNewImage(String dogPicUri) {
+        if (mDog != null){
+            mDog.setPicUrl(dogPicUri);
+            mDogService.updateDog(mDog, new Callback<DogResponse>() {
+                @Override
+                public void success(DogResponse dogResponse, Response response) {
+                    Log.i(TAG, "dog pic successfully updated for userid: " + mFacebookProfile.getId());
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.i(TAG, "error updateding dog pic for userid: " + mFacebookProfile.getId());
+                }
+            });
+        } else {
+            //create new Dog for this user and save it
+            mDog = new Dog();
+            mDog.setUserId(mFacebookProfile.getId());
+            mDog.setPicUrl(dogPicUri);
+            mDogService.createDog(mDog, new Callback<DogResponse>() {
+                @Override
+                public void success(DogResponse dogResponse, Response response) {
+                    Log.i(TAG, "dog with pic successfully created for userid: " + mFacebookProfile.getId());
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.i(TAG, "failed creating dog for userid: " + mFacebookProfile.getId());
+                }
+            });
         }
     }
 

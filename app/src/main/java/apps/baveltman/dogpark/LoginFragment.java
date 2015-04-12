@@ -52,7 +52,6 @@ public class LoginFragment extends Fragment {
     private UsersService mUsersService;
     private RestAdapter mFacebookRestAdapter;
     private FacebookService mFacebookService;
-    private User mUser;
     private User mFacebookUser;
 
     @Override
@@ -217,7 +216,6 @@ public class LoginFragment extends Fragment {
                                             @Override
                                             public void success(UserResponse userResponse, Response response) {
                                                 Log.i(LOGGER_TAG, " new user created with id: " + userResponse.getUser().getId());
-                                                mUser = userResponse.getUser();
                                                 redirectToAddDog();
                                             }
 

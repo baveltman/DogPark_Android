@@ -7,7 +7,7 @@
     <string name="facebook_logout_success">Successfully logged out</string>
     <string name="app_display_name">Dog Park</string>
     <string name="hi">Hi, %s</string>
-    <string name="dog_name">Dog's name</string>
+    <string name="dog_name">Name of dog or dogs</string>
     <string name="add_dog_pic">Add Picture</string>
     <string name="change_dog_pic">Change Picture</string>
 </resources>
