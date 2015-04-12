@@ -133,6 +133,7 @@
                  android:layout_height="40dp"
                  android:hint="@string/dog_name"
                  android:cursorVisible="false"
+                 android:textStyle="bold"
                  />
 
 
@@ -145,7 +146,8 @@
                 android:background="@drawable/light_blue_button"
                 android:gravity="center"
                 android:textColor="#FFF"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textSize="16sp"/>
 
         </LinearLayout>
 

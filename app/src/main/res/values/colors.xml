@@ -2,7 +2,7 @@
 <resources>
     <item name="dogpark_orange" type="color">#E66B25</item>
     <item name="dark_brown" type="color">#301712</item>
-    <item name="dogpark_dark_blue" type="color">#3079AB</item>
+    <item name="dogpark_dark_blue" type="color">#5890FF</item>
     <item name="dogpark_blue" type="color">#39ADD1</item>
     <item name="light_gray" type="color">#F2F2F2</item>
     <item name="white" type="color">#FFF</item>
