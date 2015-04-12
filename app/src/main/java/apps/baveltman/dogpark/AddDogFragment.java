@@ -12,10 +12,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -115,8 +118,65 @@ public class AddDogFragment extends Fragment {
         mDogPicButton.setTypeface(mTypeFace);
 
         bindDogPicButtonEvents();
+        bindEditDogNameEvents();
 
         return v;
+    }
+
+    private void bindEditDogNameEvents() {
+        mDogName.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == EditorInfo.IME_ACTION_DONE ||
+                                event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            if (!event.isShiftPressed()) {
+                                // the user is done typing. update dog with new info
+                                updateDogWithNameInfo(mDogName.getText().toString());
+
+                                return true; // consume.
+                            }
+                        }
+                        return false; // pass on to other listeners.
+                    }
+                });
+    }
+
+    private void updateDogWithNameInfo(String dogText) {
+        if (mDog != null){
+            mDog.setDescription(dogText);
+            //dog already exists, so just update
+            mDogService.updateDog(mDog, new Callback<DogResponse>() {
+                @Override
+                public void success(DogResponse dogResponse, Response response) {
+                    Log.i(TAG, "dog description successfully updated for userid: " + mFacebookProfile.getId());
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.i(TAG, "failed updateding dog description for userid: " + mFacebookProfile.getId());
+                }
+            });
+        } else {
+            //dog needs to be created
+            mDog = new Dog();
+            mDog.setUserId(mFacebookProfile.getId());
+            mDog.setDescription(dogText);
+
+            mDogService.createDog(mDog, new Callback<DogResponse>() {
+                @Override
+                public void success(DogResponse dogResponse, Response response) {
+                    Log.i(TAG, "created dog with description for userid: " + mFacebookProfile.getId());
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.i(TAG, "failed creating dog with description for userid: " + mFacebookProfile.getId());
+                }
+            });
+        }
     }
 
     private void bindDogPicButtonEvents() {
