@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -56,10 +57,13 @@ public class AddDogFragment extends Fragment {
 
     private Typeface mTypeFace;
     private TextView mUserGreeting;
+    private ImageView mUserImageBackground;
     private ImageView mUserImage;
+    private ProgressBar mUserImageSpinner;
     private ImageView mDogImage;
     private EditText mDogName;
     private TextView mDogPicButton;
+    private ProgressBar mDogImageSpinner;
     private CallbackManager mCallbackManager;
     private Profile mFacebookProfile;
 
@@ -110,8 +114,12 @@ public class AddDogFragment extends Fragment {
         mUserGreeting = (TextView)v.findViewById(R.id.user_greeting);
         mUserGreeting.setTypeface(mTypeFace);
 
+        mUserImageBackground = (ImageView)v.findViewById(R.id.user_image_background);
         mUserImage = (ImageView)v.findViewById(R.id.user_image);
+        mUserImageSpinner = (ProgressBar)v.findViewById(R.id.user_image_spinner);
+
         mDogImage = (ImageView)v.findViewById(R.id.dog_image);
+        mDogImageSpinner = (ProgressBar)v.findViewById(R.id.dog_image_spinner);
 
         mDogName = (EditText)v.findViewById(R.id.dog_name);
         mDogName.setTypeface(mTypeFace);
@@ -238,6 +246,8 @@ public class AddDogFragment extends Fragment {
                         mDog = dogResponse.getDog();
                         setDogPic(dogResponse.getDog().getPicUrl());
                         setDogDescription(dogResponse.getDog().getDescription());
+                    } else {
+                        showDogImageBackground();
                     }
                 }
 
@@ -249,11 +259,17 @@ public class AddDogFragment extends Fragment {
         }
     }
 
+    private void showDogImageBackground() {
+        mDogImageSpinner.setVisibility(View.GONE);
+        mDogImage.setVisibility(View.VISIBLE);
+    }
+
     private void setDogDescription(String description) {
         mDogName.setText(description);
     }
 
     private void setDogPic(String picUrl) {
+        showDogImageBackground();
         Uri uri = Uri.parse(picUrl);
         setDogPic(uri);
     }
@@ -364,6 +380,9 @@ public class AddDogFragment extends Fragment {
 
         protected void onPostExecute(Bitmap image) {
             if (image != null){
+                mUserImageSpinner.setVisibility(View.GONE);
+                mUserImageBackground.setVisibility(View.VISIBLE);
+                mUserImage.setVisibility(View.VISIBLE);
                 Bitmap roundedImage = ImageHelper.getRoundedCornerBitmap(image, 150);
                 mUserImage.setImageBitmap(roundedImage);
             }
