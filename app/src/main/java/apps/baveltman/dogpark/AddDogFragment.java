@@ -33,6 +33,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -60,6 +62,7 @@ public class AddDogFragment extends Fragment {
     private ImageView mUserImageBackground;
     private ImageView mUserImage;
     private ProgressBar mUserImageSpinner;
+    private TextView mWhoIsComingText;
     private ImageView mDogImage;
     private EditText mDogName;
     private TextView mDogPicButton;
@@ -117,6 +120,9 @@ public class AddDogFragment extends Fragment {
         mUserImageBackground = (ImageView)v.findViewById(R.id.user_image_background);
         mUserImage = (ImageView)v.findViewById(R.id.user_image);
         mUserImageSpinner = (ProgressBar)v.findViewById(R.id.user_image_spinner);
+
+        mWhoIsComingText = (TextView)v.findViewById(R.id.who_coming);
+        mWhoIsComingText.setTypeface(mTypeFace);
 
         mDogImage = (ImageView)v.findViewById(R.id.dog_image);
         mDogImageSpinner = (ProgressBar)v.findViewById(R.id.dog_image_spinner);
