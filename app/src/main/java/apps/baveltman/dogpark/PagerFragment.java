@@ -2,18 +2,30 @@ package apps.baveltman.dogpark;
 
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import apps.baveltman.dogpark.helpers.SlidingTabLayout;
 
@@ -26,12 +38,16 @@ public class PagerFragment extends Fragment {
     private CollectionPagerAdapter mPagerAdapter;
     private SlidingTabLayout mSlidingTabLayout;
 
-    private ActionBar mActionBar;
+    private CallbackManager mCallbackManager;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //initialize Facebook SDK
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        mCallbackManager = CallbackManager.Factory.create();
 
         mPagerAdapter =
                 new CollectionPagerAdapter(
@@ -43,6 +59,12 @@ public class PagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.pager_fragment, parent, false);
 
+        bindTabPagerView(v);
+
+        return v;
+    }
+
+    private void bindTabPagerView(View v) {
         mViewPager = (ViewPager)v.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -59,8 +81,47 @@ public class PagerFragment extends Fragment {
         });
         mSlidingTabLayout.setCustomTabView(R.layout.custom_tab, 0);
         mSlidingTabLayout.setViewPager(mViewPager);
+    }
 
-        return v;
+    private void checkFacebookLogin() {
+        AccessToken token = AccessToken.getCurrentAccessToken();
+        if (token == null || token.isExpired()){
+            redirectToLoginFragment();
+        }
+    }
+
+    private void redirectToLoginFragment() {
+        Intent i = new Intent(getActivity(), LoginActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        checkFacebookLogin();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Facebook logging: Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(getActivity());
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Facebook logging: Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(getActivity());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 
@@ -78,6 +139,7 @@ public class PagerFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+
             if (position == 0){
                 return new AddDogFragment();
             }
