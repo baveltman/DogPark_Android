@@ -7,17 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import apps.baveltman.dogpark.helpers.SlidingTabLayout;
 
@@ -87,7 +83,7 @@ public class PagerFragment extends Fragment {
             }
 
             if (position == 1){
-                return new ParkListFragment();
+                return new PlaceListFragment();
             }
 
             return null;

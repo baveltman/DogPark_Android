@@ -20,7 +20,7 @@ import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
-public class ParkListFragment extends Fragment {
+public class PlaceListFragment extends Fragment {
 
     //constants
     private static final String LOGGER_TAG = "LoginFragment";

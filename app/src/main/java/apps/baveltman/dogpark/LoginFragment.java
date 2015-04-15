@@ -252,7 +252,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void redirectToParkList() {
-        Intent i = new Intent(getActivity(), ParkListActivity.class);
+        Intent i = new Intent(getActivity(), PlaceListActivity.class);
         startActivity(i);
     }
 

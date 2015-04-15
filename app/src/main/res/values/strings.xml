@@ -11,4 +11,9 @@
     <string name="add_dog_pic">Add Picture</string>
     <string name="change_dog_pic">Change Picture</string>
     <string name="who_coming">Who\'s coming to the dog park?</string>
+    <string name="checked_in">%s and %s</string>
+    <string name="checked_in_last_hour">In the last hour:</string>
+    <string name="checkins">Checked \nin</string>
+    <string name="people_observed">People \nobserved</string>
+    <string name="doggies_observed">Doggies \nobserved</string>
 </resources>
