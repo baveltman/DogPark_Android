@@ -1,7 +1,6 @@
 package apps.baveltman.dogpark;
 
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,18 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -141,7 +134,7 @@ public class PagerFragment extends Fragment {
         public Fragment getItem(int position) {
 
             if (position == 0){
-                return new AddDogFragment();
+                return new ProfileFragment();
             }
 
             if (position == 1){

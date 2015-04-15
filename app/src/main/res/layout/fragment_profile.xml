@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@color/light_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@color/dogpark_orange">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/user_image_background"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:background="@drawable/white_outlined_cirlce"
+                android:visibility="gone"
+              />
+
+            <ImageView
+                android:layout_marginTop="-160dp"
+                android:id="@+id/user_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/white_outlined_cirlce"
+                android:visibility="gone"/>
+
+            <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/user_image_spinner"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:indeterminate="true"
+                app:cpb_color="#FFF"
+                app:cpb_rotation_speed="1.0"
+                app:cpb_sweep_speed="1.0"
+                app:cpb_stroke_width="4dp"
+                app:cpb_min_sweep_angle="10"
+                app:cpb_max_sweep_angle="300"
+                />
+
+
+
+            <TextView
+                android:id="@+id/user_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hi"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:textColor="#FFF"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        >
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="#FFF">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/activity_list">
+
+        </ListView>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

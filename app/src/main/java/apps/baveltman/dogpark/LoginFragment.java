@@ -247,7 +247,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void redirectToAddDog() {
-        Intent i = new Intent(getActivity(), AddDogActivity.class);
+        Intent i = new Intent(getActivity(), ProfileActivity.class);
         startActivity(i);
     }
 
