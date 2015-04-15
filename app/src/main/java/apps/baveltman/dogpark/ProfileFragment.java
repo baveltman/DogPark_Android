@@ -99,6 +99,9 @@ public class ProfileFragment extends Fragment {
         mUserImage = (ImageView)v.findViewById(R.id.user_image);
         mUserImageSpinner = (ProgressBar)v.findViewById(R.id.user_image_spinner);
 
+        TextView recentActivityText = (TextView)v.findViewById(R.id.recent_activity_text);
+        recentActivityText.setTypeface(mTypeFace);
+
         mActivityList = (ListView)v.findViewById(R.id.activity_list);
 
         return v;

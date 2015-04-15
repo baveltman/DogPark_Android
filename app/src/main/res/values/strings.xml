@@ -17,4 +17,5 @@
     <string name="checkins">Checked \nin</string>
     <string name="people_observed">People \nobserved</string>
     <string name="doggies_observed">Doggies \nobserved</string>
+    <string name="recent_activity">Recent Activity</string>
 </resources>
